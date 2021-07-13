@@ -7,7 +7,7 @@ namespace EADragDropMVVMTest.Commands.Extentions
     class AddOrRemoveCommand : ICommandEx
     {
         DragDropControlViewModel _viewModel;       
-        public AddOrRemoveCommand(DragDropControlViewModel viewModel)
+        public AddOrRemoveCommand(DragDropControlViewModel viewModel)            
         {
             _viewModel = viewModel;           
         }
@@ -47,11 +47,7 @@ namespace EADragDropMVVMTest.Commands.Extentions
                 
                 if (ctrlViewModel.DragDropControlsCollection.Contains(_viewModel))
                 {
-                    _viewModel.RectX = _viewModel.CurrentPosition.X;
-                    _viewModel.RectY = _viewModel.CurrentPosition.Y;
-
-                    _viewModel.PanelX = _viewModel.RectX + 25;
-                    _viewModel.PanelY = _viewModel.RectY + 25;
+                    
                     ctrlViewModel.DragDropControlsCollection.Remove(_viewModel);
                     
                 }

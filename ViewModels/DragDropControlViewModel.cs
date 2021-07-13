@@ -35,9 +35,9 @@ namespace EADragDropMVVMTest.ViewModels
         // Drag drop control constructor
         //</Summary>
         public DragDropControlViewModel()
-        {
-            PanelX = 100;
-            PanelY = 100;
+        {            
+            PanelX = rand.Next(100, 400);
+            PanelY = rand.Next(100, 400);
             RectX = PanelX - 50.0;
             RectY = PanelY - 50.0;            
             _theBrush = new SolidColorBrush(Color.FromRgb((byte)rand.Next(1, 255), (byte)rand.Next(1, 255), (byte)rand.Next(1, 233))); 
@@ -70,7 +70,7 @@ namespace EADragDropMVVMTest.ViewModels
                        {
                            RectX = PanelX -25;
                            RectY = PanelY -25;
-                           Debug.WriteLine(string.Format("RectX = {0} RectY = {1} PanelX ={2} PanelX ={3}", RectX, RectY, PanelX, PanelY));
+                           //Debug.WriteLine(string.Format("RectX = {0} RectY = {1} PanelX ={2} PanelX ={3}", RectX, RectY, PanelX, PanelY));
                            NotifyPropertyChanged("PreviewMouseMove");
                        }
                    }));
@@ -117,8 +117,15 @@ namespace EADragDropMVVMTest.ViewModels
             set
             {
                 if (value.Equals(_currentPosition)) return;
-                _currentPosition = value;                
-                Debug.WriteLine(string.Format("_currentPosition.X = {0} _currentPosition.Y = {1}", _currentPosition.X, _currentPosition.Y));
+                _currentPosition = value;
+
+                //Update the testEllipse drawing params
+                RectX = value.X;
+                RectY = value.Y;
+
+                PanelX = value.X + 25;
+                PanelY = value.Y + 25;
+                //Debug.WriteLine(string.Format("_currentPosition.X = {0} _currentPosition.Y = {1}", _currentPosition.X, _currentPosition.Y));
                 NotifyPropertyChanged("CurrentPosition");
             }
         } 
@@ -134,7 +141,7 @@ namespace EADragDropMVVMTest.ViewModels
                 if (value.Equals(_rectX)) return;
                 _rectX = value;
                 _currentPosition.X = value;
-                Debug.WriteLine(string.Format("RectX = {0} RectY = {1} PanelX ={2} PanelX ={3}", RectX, RectY, PanelX, PanelY));
+                //Debug.WriteLine(string.Format("RectX = {0} RectY = {1} PanelX ={2} PanelX ={3}", RectX, RectY, PanelX, PanelY));
                 NotifyPropertyChanged("RectX");
             }
         }
@@ -150,7 +157,7 @@ namespace EADragDropMVVMTest.ViewModels
                 if (value.Equals(_rectY)) return;
                 _rectY = value;
                 _currentPosition.Y = value;
-                Debug.WriteLine(string.Format("RectX = {0} RectY = {1} PanelX ={2} PanelX ={3}", RectX, RectY, PanelX, PanelY));
+                //Debug.WriteLine(string.Format("RectX = {0} RectY = {1} PanelX ={2} PanelX ={3}", RectX, RectY, PanelX, PanelY));
                 NotifyPropertyChanged("RectY");
             }
         }

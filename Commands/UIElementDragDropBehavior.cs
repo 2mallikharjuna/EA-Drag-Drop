@@ -1,5 +1,4 @@
-﻿
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using Microsoft.Xaml.Behaviors;
@@ -101,7 +100,7 @@ namespace EADragDropMVVMTest.Commands
                 MouseY = mousePosition.Y;
 
                 // move the usercontrol.
-                AssociatedObject.RenderTransform = new TranslateTransform(mousePosition.X - MouseX, mousePosition.Y - MouseY);
+                AssociatedObject.RenderTransform = new TranslateTransform(mousePosition.X - MouseX, mousePosition.Y - MouseY);                
             }
         }
 

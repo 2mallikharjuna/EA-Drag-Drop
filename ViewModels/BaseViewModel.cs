@@ -9,7 +9,7 @@ namespace EADragDropMVVMTest.ViewModels
     public class BaseViewModel : INotifyPropertyChanged
     {       
         public event PropertyChangedEventHandler PropertyChanged;
-
+                
         //<Summary>
         // INotifyPropertyChanged Implementation 
         //</Summary>

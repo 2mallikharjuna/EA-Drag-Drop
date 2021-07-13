@@ -103,9 +103,7 @@ namespace EADragDropMVVMTest.ViewModels
                 {                                   
                     ICommandEx command = _Undocommands.Pop();
                     command.UnExecute(this);
-                    _Redocommands.Push(command);
-                    if (DragDropControlsCollection != null && DragDropControlsCollection.Count == 0)
-                        _Redocommands.Clear();
+                    _Redocommands.Push(command);                    
                 }
             }
         }
@@ -170,7 +168,7 @@ namespace EADragDropMVVMTest.ViewModels
                        }
                    }));
             }
-        }
+        }        
 
         //<Summary>
         // Mouse Button up capture interaction Event Handler Implementaion
@@ -183,17 +181,15 @@ namespace EADragDropMVVMTest.ViewModels
             {
                 return _leftMouseButtonUp ?? (_leftMouseButtonUp = new RelayCommand<MouseEventArgs>(
                    e =>
-                   {
-                       Debug.WriteLine("LeftMouseButtonDown ");
+                   {                       
                        if (captured == true && mousemove)
-                       {
-                           Debug.WriteLine("LeftMouseButtonUp captured");
+                       {                           
                            mousemove = false;
                            captured = false;
                            DragDropControlView element = e.Source as DragDropControlView;
                            var dragDropControlViewModel = element.ChildCanvas.DataContext as DragDropControlViewModel;
                            var currentPosition = new Point(dragDropControlViewModel.RectX, dragDropControlViewModel.RectY);
-                           ICommandEx cmd = new MoveCommand(element, previousPosition, currentPosition);
+                           ICommandEx cmd = new MoveCommand(dragDropControlViewModel, previousPosition, currentPosition);
                            _Undocommands.Push(cmd);
                        }
                    }));

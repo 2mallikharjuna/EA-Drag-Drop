@@ -1,6 +1,6 @@
-﻿using EADragDropMVVMTest.Commands.Common;
-using System;
+﻿using System;
 using System.Windows.Input;
+using EADragDropMVVMTest.Commands.Common;
 
 namespace EADragDropMVVMTest.Commands
 {

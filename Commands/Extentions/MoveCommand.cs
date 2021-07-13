@@ -1,10 +1,7 @@
-﻿using EADragDropMVVMTest.ViewModels;
-using EADragDropMVVMTest.Views;
-using System;
-using System.Diagnostics;
+﻿using System;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
+using EADragDropMVVMTest.ViewModels;
 
 namespace EADragDropMVVMTest.Commands.Extentions
 {
@@ -12,12 +9,12 @@ namespace EADragDropMVVMTest.Commands.Extentions
     /// Move Command Class
     /// </summary>
     public class MoveCommand : ICommandEx
-    {
-        private DragDropControlView _uiElement;
+    {        
         Point prevAnchorPoint;
         Point NextAnchorPoint;        
+        DragDropControlViewModel _viewModel;
 
-        public BaseViewModel UiElementViewModel => _uiElement.DataContext as DragDropControlViewModel;
+        public BaseViewModel UiElementViewModel => _viewModel;
 
         /// <summary>
         /// Move Command Constructor
@@ -25,9 +22,9 @@ namespace EADragDropMVVMTest.Commands.Extentions
         /// <param name="uiElement">DragDrop Control UI Element</param>
         /// <param name="prev">Prev Anchor point</param>
         /// <param name="current">Current Anchor point</param>
-        public MoveCommand(DragDropControlView uiElement, Point prev, Point current)
-        {
-            _uiElement = uiElement;
+        public MoveCommand(DragDropControlViewModel viewModel, Point prev, Point current)
+        {            
+            _viewModel = viewModel;            
             prevAnchorPoint = prev;
             NextAnchorPoint = current;
         }
@@ -48,20 +45,11 @@ namespace EADragDropMVVMTest.Commands.Extentions
         {
             if (parameter != null)
             {
-                var ctrlViewModel = parameter as ElementsContainerViewModel;
-                var dragDropControlViewModel = _uiElement.DataContext as DragDropControlViewModel;
-                if (ctrlViewModel.DragDropControlsCollection.Contains(dragDropControlViewModel))
-                {
-                    var transform = new TranslateTransform();
-                    var element = VisualTreeHelper.GetParent(_uiElement) as UIElement;
-                    var currentAnchorPoint = new Point(dragDropControlViewModel.RectX, dragDropControlViewModel.RectY);                    
-                    
-                    transform.X += NextAnchorPoint.X - currentAnchorPoint.X;
-                    transform.Y += NextAnchorPoint.Y - currentAnchorPoint.Y;
-
-                    element.RenderTransform = transform;
-                    
-                    Debug.WriteLine(string.Format("Execute transformX = {0} transformY = {1} ", transform.X, transform.Y));                    
+                var ctrlViewModel = parameter as ElementsContainerViewModel;                
+                if (ctrlViewModel.DragDropControlsCollection.Contains(_viewModel))
+                {                    
+                    _viewModel.CurrentPosition = NextAnchorPoint;                    
+                    //Debug.WriteLine(string.Format("Execute transformX = {0} transformY = {1} ", transform.X, transform.Y));                    
                 }
             }
         }
@@ -75,21 +63,10 @@ namespace EADragDropMVVMTest.Commands.Extentions
             if (parameter != null)
             {
                 var ctrlViewModel = parameter as ElementsContainerViewModel;
-                var dragDropControlViewModel = _uiElement.DataContext as DragDropControlViewModel;
-                if (ctrlViewModel.DragDropControlsCollection.Contains(dragDropControlViewModel))
-                {
-                    var transform = new TranslateTransform();
-                    var element = VisualTreeHelper.GetParent(_uiElement) as UIElement;
-                    var currentAnchorPoint = new Point(dragDropControlViewModel.RectX, dragDropControlViewModel.RectY);
-                    
-                    transform.X -= currentAnchorPoint.X - prevAnchorPoint.X;
-                    transform.Y -= currentAnchorPoint.Y - prevAnchorPoint.Y;
-                    element.RenderTransform = transform;
-                    
-                    dragDropControlViewModel.CurrentPosition = prevAnchorPoint;                    
-
-                    Debug.WriteLine(string.Format("UnExecute transformX = {0} transformY = {1} ", transform.X, transform.Y));
-                    
+              
+                if (ctrlViewModel.DragDropControlsCollection.Contains(_viewModel))
+                { 
+                    _viewModel.CurrentPosition = prevAnchorPoint;                    
                 }
             }
         }
